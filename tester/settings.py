@@ -26,7 +26,7 @@ SECRET_KEY = "django-insecure-yws+t-*=79-#6j6hasia29^h-h6w8k6+2gn&rc#36#lbiv+@5(
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['www.qualsudo.com', '127.0.0.1', 'localhost']
 
 
 # Application definition
