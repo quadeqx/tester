@@ -1,3 +1,5 @@
+import subprocess
+import time
 import os
 from azure.identity import ClientSecretCredential
 
@@ -9,6 +11,7 @@ class TokenProvider:
     def get_token(cls):
         """Returns a fresh AAD token (auto-refreshes)."""
         print("Retrieving token...")
+        time.sleep(3)
         try:
             # Initialize the credential only once (auto-refreshes internally)
             if cls._credential is None:
@@ -22,9 +25,7 @@ class TokenProvider:
             token = cls._credential.get_token(
                 "https://ossrdbms-aad.database.windows.net/.default"
             )
-
-            # Return the token as the database password
             return token.token
-
-        except ValueError as e:
+        except Exception as e:
+            time.sleep(2)
             return

@@ -24,7 +24,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = "django-insecure-yws+t-*=79-#6j6hasia29^h-h6w8k6+2gn&rc#36#lbiv+@5("
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
 ALLOWED_HOSTS = ['www.qualsudo.com',
 		'qualsudo.com',
@@ -86,7 +86,7 @@ DATABASES = {
         "NAME": os.getenv('NAME'),
 	"HOST": os.getenv('HOST'),
 	"PORT": os.getenv('PORT'),
-	"PASSWORD": lambda: TokenProvider.get_token(),
+	"PASSWORD": (lambda: TokenProvider.get_token())(),
     }
 }
 
