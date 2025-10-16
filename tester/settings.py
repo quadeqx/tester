@@ -116,8 +116,6 @@ DATABASES = {
     "sslmode": "require",
     }
 }
-logger.info(f"\n\n=================================\n{DATABASES['default']}\n============================\n\n")
-time.sleep(2)
 
 # Password validation
 # https://docs.djangoproject.com/en/5.2/ref/settings/#auth-password-validators
