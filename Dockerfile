@@ -24,7 +24,8 @@ RUN pip install -r requirements.txt
 COPY . .
 
 # Collect static files
-RUN python manage.py collectstatic --noinput
+RUN export $(grep -v '^#' .env | xargs) && \
+python manage.py collectstatic --noinput
 
 # Expose port for Gunicorn
 EXPOSE 8000

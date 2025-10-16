@@ -10,11 +10,37 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/5.2/ref/settings/
 """
 import os
+import logging
 from pathlib import Path
 from tester.db import TokenProvider
-
+import time
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
+
+LOG_DIR = BASE_DIR / "logs"
+LOG_DIR.mkdir(exist_ok=True)
+
+# Create a logger
+logger = logging.getLogger("django_simple")
+logger.setLevel(logging.INFO)
+
+# Formatter
+formatter = logging.Formatter("[%(asctime)s] %(levelname)s in %(name)s: %(message)s")
+
+# Console handler (for Docker/stdout)
+console_handler = logging.StreamHandler()
+console_handler.setFormatter(formatter)
+
+# File handler (for local debugging)
+file_handler = logging.FileHandler(LOG_DIR / "django.log")
+file_handler.setFormatter(formatter)
+
+# Attach handlers if not already added
+if not logger.handlers:
+    logger.addHandler(console_handler)
+    logger.addHandler(file_handler)
+
+
 
 
 # Quick-start development settings - unsuitable for production
@@ -81,15 +107,17 @@ WSGI_APPLICATION = "tester.wsgi.application"
 
 DATABASES = {
     "default": {
-        "ENGINE": "django.db.backends.postgresql",
+    "ENGINE": "django.db.backends.postgresql",
 	"USER": os.getenv('USER'),
-        "NAME": os.getenv('NAME'),
+    "NAME": os.getenv('NAME'),
 	"HOST": os.getenv('HOST'),
 	"PORT": os.getenv('PORT'),
-	"PASSWORD": (lambda: TokenProvider.get_token())(),
+	"PASSWORD": os.getenv('PASSWORD'),
+    "sslmode": "require",
     }
 }
-
+logger.info(f"\n\n=================================\n{DATABASES['default']}\n============================\n\n")
+time.sleep(2)
 
 # Password validation
 # https://docs.djangoproject.com/en/5.2/ref/settings/#auth-password-validators

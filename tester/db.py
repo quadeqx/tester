@@ -25,7 +25,9 @@ class TokenProvider:
             token = cls._credential.get_token(
                 "https://ossrdbms-aad.database.windows.net/.default"
             )
+            print("Token retrieved...")
             return token.token
         except Exception as e:
+            print(f"=====ERROR====\n{e}")
             time.sleep(2)
             return
